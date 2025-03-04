@@ -1,4 +1,10 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
 
-createApp(App).mount('#app')
+// นำเข้า Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.css';
+
+createApp(App)
+  .use(router) // ใช้ Vue Router
+  .mount('#app'); // Mount แอปพลิเคชันที่ element #app
