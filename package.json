@@ -7,13 +7,18 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "deploy": "gh-pages -d dist"
-    
   },
   "homepage": "https://<username>.github.io/<repository-name>",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-brands-svg-icons": "^5.15.4",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "axios": "^1.8.1",
     "bootstrap": "^5.3.3",
     "core-js": "^3.8.3",
+    "gsap": "^3.12.7",
+    "three": "^0.155.0",
     "vue": "^3.2.13",
     "vue-router": "^4.5.0",
     "vuex": "^4.1.0"
