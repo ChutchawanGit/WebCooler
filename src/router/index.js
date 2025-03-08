@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
-import About from '../views/About.vue';
-import Services from '../views/Services.vue';
-import Work from '../views/Work.vue';
-import Contact from '../views/Contact.vue';
+import authService from '../auth/authService';
+import AdminDashboard from '../views/AdminDashboard.vue'
+import authGuard from '../auth/guard'
+
 
 const routes = [
   {
@@ -14,29 +14,43 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    component: About,
+    component: () => import('../views/About.vue'),
   },
   {
     path: '/services',
     name: 'Services',
-    component: Services,
+    component: () => import('../views/Services.vue'),
   },
   {
     path: '/work',
     name: 'Work',
-    component: Work,
+    component: () => import('../views/Work.vue'),
   },
   {
     path: '/contact',
     name: 'Contact',
-    component: Contact,
+    component: () => import('../views/Contact.vue'),
   },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login.vue'),
+  },
+  {
+    path: '/admin',
+    name: 'AdminDashboard',
+    component: AdminDashboard,
+    meta: { 
+      requiresAuth: true,
+      requiresAdmin: true 
+    },
+    beforeEnter: authGuard
+  }
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  // Smooth scrolling to top on route change
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition;
@@ -44,6 +58,29 @@ const router = createRouter({
       return { top: 0, behavior: 'smooth' };
     }
   },
+});
+
+// Navigation guard to check authentication
+router.beforeEach((to, from, next) => {
+  // Check if route requires authentication
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!authService.isAuthenticated()) {
+      // Redirect to login page if not authenticated
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      });
+    } else if (to.matched.some(record => record.meta.requiresAdmin) && !authService.isAdmin()) {
+      // Redirect to home if not an admin
+      next({ path: '/' });
+    } else {
+      // Allow access
+      next();
+    }
+  } else {
+    // Allow access to non-protected routes
+    next();
+  }
 });
 
 export default router;

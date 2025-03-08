@@ -1,19 +1,22 @@
 <template>
-    <div class="services">
-      <h1>Our Services</h1>
-      <p>This is the services page. Content coming soon.</p>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'ServicesPage'
+  <div class="services-page">
+    <ServicesSection />
+  </div>
+</template>
+
+<script>
+import ServicesSection from '../components/ServicesSection.vue';
+
+export default {
+  name: 'ServicesPage',
+  components: {
+    ServicesSection
   }
-  </script>
-  
-  <style scoped>
-  .services {
-    text-align: center;
-    padding: 50px;
-  }
-  </style>
+};
+</script>
+
+<style scoped>
+.services-page {
+  min-height: calc(100vh - 70px);
+}
+</style>
